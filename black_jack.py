@@ -1,12 +1,17 @@
+"""Game Black-Jack. My first experience with OOP """
+
 import random
 
 
 class Card:
+    """Making cards"""
+
     def __init__(self, rank: str, suit: str) -> None:
         self.rank = rank
         self.suit = suit
 
     def get_value(self) -> int:
+        """Carts rung"""
         if self.rank in 'DVK':
             return 10
         elif self.rank in 'T':
@@ -15,21 +20,28 @@ class Card:
             return ' A2345789'.index(self.rank)
 
     def get_rank(self, ):
+        """Return card"""
         return f'{self.suit}{self.rank}'
 
 
 class DeskCard:
+    """Making deskCard"""
+
     def __init__(self):
+        """Making list of all cards"""
         _rank = 'A23456789DVKT'
         _suit = 'ПКБЧ'
         self.__cards = [Card(r, s) for s in _suit for r in _rank]
         random.shuffle(self.__cards)
 
     def get_card(self) -> Card:
+        """return one card"""
         return self.__cards.pop()
 
 
 class Player:
+    """Making players """
+
     def __init__(self, name: str):
         self._hand = []
         self.count = 0
@@ -46,6 +58,8 @@ class Player:
 
 
 class Dealer(Player):
+    """Making Dealer"""
+
     def get_card(self, cards: DeskCard):
         while self.count < 21:
             _card = cards.get_card()
@@ -56,15 +70,19 @@ class Dealer(Player):
 
 
 class Game:
+    """Making Game"""
+
     def __init__(self, player_name: str):
         self.cards = DeskCard()
         self.player = Player(name=player_name)
         self.dealer = Dealer(name='Dealer')
 
     def print(self) -> str:
+        """Return players and dealers all points"""
         return (f'\n{self.player.name}:\n {self.player.hand}\n{self.dealer.name}:\n{self.dealer.hand} ')
 
     def check_count(self):
+        """Check winers"""
         if self.player.count > 21 or (self.player.count <= self.dealer.count and self.dealer.count < 21):
             print(f"Вы проиграли", self.print())
         elif self.dealer.count > 21 and self.player.count < 21:
